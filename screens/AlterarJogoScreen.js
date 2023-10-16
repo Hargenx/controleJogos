@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { alterarJogo, encontrarJogoPorNome } from '../database/BaseDados';
 
-const AlterarJogoScreen = () => {
+const AlterarJogoScreen = ({ navigation }) => {
     const[id, getId] = useState('')
   const [nome, setNome] = useState('');
   const [plataforma, setPlataforma] = useState('');
@@ -32,6 +32,7 @@ const AlterarJogoScreen = () => {
         alert('Erro ao alterar o jogo. Tente novamente.');
       }
     });
+    navigation.navigate('Home');
   };
 
   return (

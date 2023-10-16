@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, FlatList, StyleSheet, Alert } from 'react-native';
 import { listarJogos, excluirJogo } from '../database/BaseDados';
 
-const ExcluirJogoScreen = () => {
+const ExcluirJogoScreen = ({ navigation }) => {
   const [jogos, setJogos] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -35,6 +35,7 @@ const ExcluirJogoScreen = () => {
                 alert('Erro ao excluir o jogo. Tente novamente.');
               }
             });
+            navigation.navigate('Home');
           },
         },
       ],
