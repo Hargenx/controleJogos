@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { alterarJogo, encontrarJogoPorNome } from '../database/BaseDados';
 
 const AlterarJogoScreen = ({ navigation }) => {
-    const[id, getId] = useState('')
+  const [id, getId] = useState('')
   const [nome, setNome] = useState('');
   const [plataforma, setPlataforma] = useState('');
   const [genero, setGenero] = useState('');

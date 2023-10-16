@@ -4,7 +4,6 @@ import { listarJogos } from '../database/BaseDados';
 
 const VisualizarTodosScreen = () => {
   const [jogos, setJogos] = useState([]);
-
   useEffect(() => {
     listarJogos((jogos) => {
       setJogos(jogos);

@@ -4,12 +4,12 @@ import { listarJogos, excluirJogo } from '../database/BaseDados';
 
 const ExcluirJogoScreen = ({ navigation }) => {
   const [jogos, setJogos] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [termoPesquisado, setTermoPesquisado] = useState('');
 
-  const handleSearch = () => {
+  const handlePesquisa = () => {
     listarJogos((jogos) => {
       const filteredJogos = jogos.filter((jogo) =>
-        jogo.nome.toLowerCase().includes(searchTerm.toLowerCase())
+        jogo.nome.toLowerCase().includes(termoPesquisado.toLowerCase())
       );
       setJogos(filteredJogos);
     });
@@ -30,7 +30,7 @@ const ExcluirJogoScreen = ({ navigation }) => {
             excluirJogo(id, (rowsAffected) => {
               if (rowsAffected > 0) {
                 alert('Jogo excluído com sucesso.');
-                handleSearch(); // Atualize a lista após a exclusão
+                handlePesquisa(); // Atualize a lista após a exclusão
               } else {
                 alert('Erro ao excluir o jogo. Tente novamente.');
               }
@@ -49,10 +49,10 @@ const ExcluirJogoScreen = ({ navigation }) => {
       <TextInput
         style={styles.input}
         placeholder="Pesquisar por nome"
-        value={searchTerm}
-        onChangeText={setSearchTerm}
+        value={termoPesquisado}
+        onChangeText={setTermoPesquisado}
       />
-      <Button title="Pesquisar" onPress={handleSearch} />
+      <Button title="Pesquisar" onPress={handlePesquisa} />
       <FlatList
         data={jogos}
         keyExtractor={(item) => item.id.toString()}

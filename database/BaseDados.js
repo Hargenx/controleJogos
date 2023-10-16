@@ -2,7 +2,6 @@ import { openDatabase }  from 'expo-sqlite';
 
 const db = openDatabase('ControleJogos.db');
 
-// Crie a tabela no banco de dados (se ainda não existir)
 db.transaction((tx) => {
   tx.executeSql(
     `CREATE TABLE IF NOT EXISTS jogos 
@@ -15,7 +14,6 @@ db.transaction((tx) => {
   );
 });
 
-// Função para adicionar um novo jogo ao banco de dados
 const adicionarJogo = (nome, plataforma, genero, nota, sobre, callback) => {
   db.transaction((tx) => {
     tx.executeSql(
@@ -32,7 +30,6 @@ const adicionarJogo = (nome, plataforma, genero, nota, sobre, callback) => {
   });
 };
 
-// Função para listar todos os jogos no banco de dados
 const listarJogos = (callback) => {
   db.transaction((tx) => {
     tx.executeSql('SELECT * FROM jogos', [], (_, { rows }) => {
@@ -41,16 +38,18 @@ const listarJogos = (callback) => {
   });
 };
 
-/**
- * Updates a record in a SQLite database table.
- * @param {number} id - The ID of the record to be updated.
- * @param {string} nome - The new value for the `nome` field.
- * @param {string} plataforma - The new value for the `plataforma` field.
- * @param {string} genero - The new value for the `genero` field.
- * @param {number} nota - The new value for the `nota` field.
- * @param {string} sobre - The new value for the `sobre` field.
- * @param {function} callback - A callback function to be called after the update is executed.
- */
+const encontrarJogoPorNome = (nome, callback) => {
+  db.transaction((tx) => {
+    tx.executeSql('SELECT * FROM jogos WHERE nome = ?', [nome], (_, { rows }) => {
+      if (rows.length > 0) {
+        callback(rows._array[0]);
+      } else {
+        callback(null);
+      }
+    });
+  });
+};
+
 const alterarJogo = (id, nome, plataforma, genero, nota, sobre, callback) => {
   db.transaction((tx) => {
     const sql = 'UPDATE jogos SET nome = ?, plataforma = ?, genero = ?, nota = ?, sobre = ? WHERE id = ?';
@@ -70,18 +69,6 @@ const alterarJogo = (id, nome, plataforma, genero, nota, sobre, callback) => {
   });
 };
 
-const encontrarJogoPorNome = (nome, callback) => {
-  db.transaction((tx) => {
-    tx.executeSql('SELECT * FROM jogos WHERE nome = ?', [nome], (_, { rows }) => {
-      if (rows.length > 0) {
-        callback(rows._array[0]);
-      } else {
-        callback(null);
-      }
-    });
-  });
-};
-
 const excluirJogo = (id, callback) => {
   db.transaction((tx) => {
     tx.executeSql(
@@ -97,6 +84,5 @@ const excluirJogo = (id, callback) => {
     );
   });
 };
-
 
 export { adicionarJogo, listarJogos, alterarJogo, encontrarJogoPorNome, excluirJogo };
